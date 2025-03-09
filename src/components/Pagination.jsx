@@ -4,7 +4,7 @@ const Pagination = () => {
             <nav aria-label='...'>
                 <ul className='pagination'>
                     <li className='page-item disabled'>
-                        <a className='page-link' href='#' tabindex='-1' aria-disabled='true'>
+                        <a className='page-link' href='#' aria-disabled='true'>
                             Previous
                         </a>
                     </li>

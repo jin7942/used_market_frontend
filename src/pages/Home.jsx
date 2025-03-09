@@ -12,7 +12,10 @@ const Home = () => {
 
             <main className='container mt-4 flex-grow-1 pt-5 mb-5'>
                 {/* title */}
-                <h1 className='text-left mb-4'>상품 목록</h1>
+                <div className='d-flex justify-content-between align-items-center mb-4'>
+                    <h1 className='mb-0'>상품 목록</h1>
+                    <input type='text' className='form-control w-50 fw-bold border-2 p-2' placeholder='검색어 입력...' />
+                </div>
 
                 {/* product list */}
                 <div className='row'>
