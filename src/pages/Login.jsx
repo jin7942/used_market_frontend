@@ -1,11 +1,12 @@
 // 로그인 모달
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
+import { Link } from 'react-router';
 
 const Login = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className={`modal fade ${isOpen ? 'show d-block' : 'd-none'}`} tabIndex='-1'>
+        <div className={`modal fade ${isOpen ? 'show d-block' : 'd-none'}`} tabIndex='-1' role='dialog' aria-modal='true'>
             <div className='modal-overlay '>
                 <div className='modal-dialog  mt-5'>
                     <div className='modal-content'>
@@ -34,7 +35,9 @@ const Login = ({ isOpen, onClose }) => {
                                 <button className='form-control d-block btn btn-danger mb-3'>INSTAGRAM</button>
                             </form>
                             <h3>or</h3>
-                            <h5 className='link'>회원가입하기</h5>
+                            <Link to='/signup' className='link'>
+                                <h5>회원가입하기</h5>
+                            </Link>
                         </div>
                         <div className='modal-footer'>
                             <button type='button' className='btn btn-secondary' onClick={onClose}>
@@ -52,8 +55,8 @@ const Login = ({ isOpen, onClose }) => {
 };
 
 Login.PropTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.bool.isRequired,
+    isOpen: propTypes.bool.isRequired,
+    onClose: propTypes.func.isRequired,
 };
 
 export default Login;

@@ -1,4 +1,5 @@
 import Home from './pages/Home';
+import Signup from './pages/Signup';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -6,6 +7,8 @@ const App = () => {
         <Router>
             <Routes>
                 <Route path='/' element={<Home />} />
+
+                <Route path='/signup' element={<Signup />} />
             </Routes>
         </Router>
     );
