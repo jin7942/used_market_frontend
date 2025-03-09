@@ -1,0 +1,12 @@
+/* 전역 css 모음 */
+
+/* product list */
+.product-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
