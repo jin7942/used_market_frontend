@@ -7,7 +7,7 @@ const DeveloperCard = () => {
                 {/* 프로필 이미지 */}
                 <div className='col-md-4 d-flex align-items-center justify-content-center'>
                     <img
-                        src='../../public/img/evangelion_ray_22.jpg'
+                        src='../../public/img/profile.jpg'
                         className='img-fluid rounded-start'
                         alt='Developer'
                         style={{ height: '100%', objectFit: 'cover' }}
