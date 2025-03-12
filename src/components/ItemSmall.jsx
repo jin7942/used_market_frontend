@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProductCardSmall = () => {
+const ItemCardSmall = () => {
     return (
         <div className='col'>
             <div className='card'>
@@ -14,4 +14,4 @@ const ProductCardSmall = () => {
     );
 };
 
-export default ProductCardSmall;
+export default ItemCardSmall;

@@ -1,10 +1,10 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import ProductCard from '../components/ProductCard';
+import ItemCard from '../components/ItemCard';
 import { useParams } from 'react-router-dom';
 
-const ProductDetail = () => {
+const ItemDetail = () => {
     const { id } = useParams(); // URL에서 상품 ID 가져오기
 
     return (
@@ -51,9 +51,9 @@ const ProductDetail = () => {
                 <h2>상품 추천</h2>
                 <hr />
                 <div className='row'>
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
                 </div>
             </main>
 
@@ -63,4 +63,4 @@ const ProductDetail = () => {
     );
 };
 
-export default ProductDetail;
+export default ItemDetail;

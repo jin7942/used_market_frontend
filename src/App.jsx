@@ -1,6 +1,6 @@
 import Home from './pages/Home';
 import MyPage from './pages/MyPage';
-import ProductDetail from './pages/ProductDetail';
+import ItemDetail from './pages/ItemDetail';
 import Signup from './pages/Signup';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const App = () => {
 
                 <Route path='/signup' element={<Signup />} />
 
-                <Route path='/productDetail' element={<ProductDetail />} />
+                <Route path='/ItemDetail' element={<ItemDetail />} />
 
                 <Route path='/myPage' element={<MyPage />} />
             </Routes>

@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import ProductCard from '../components/ProductCard';
+import ItemCard from '../components/ItemCard';
 import Pagination from '../components/Pagination';
 import DeveloperCard from '../components/DeveloperCard';
 
@@ -17,19 +17,19 @@ const Home = () => {
                     <input type='text' className='form-control w-50 fw-bold border-2 p-2' placeholder='검색어 입력...' />
                 </div>
 
-                {/* product list */}
+                {/* Item list */}
                 <div className='row'>
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
+                    <ItemCard />
                 </div>
 
                 {/* Pagination */}

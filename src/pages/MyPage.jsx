@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import ProductSection from '../components/ProductSection';
+import Item from '../components/Item';
 
 const MyPage = () => {
     const [sections, setSections] = useState({
@@ -57,10 +57,10 @@ const MyPage = () => {
 
                     {/* 거래 내역 & 찜한 상품 */}
                     <div className='col-md-8'>
-                        <ProductSection title='판매중인 상품' isVisible={sections.selling} toggleVisibility={() => toggleSection('selling')} />
-                        <ProductSection title='구매한 상품' isVisible={sections.purchased} toggleVisibility={() => toggleSection('purchased')} />
-                        <ProductSection title='판매한 상품' isVisible={sections.sold} toggleVisibility={() => toggleSection('sold')} />
-                        <ProductSection title='찜한 상품' isVisible={sections.wishlist} toggleVisibility={() => toggleSection('wishlist')} />
+                        <Item title='판매중인 상품' isVisible={sections.selling} toggleVisibility={() => toggleSection('selling')} />
+                        <Item title='구매한 상품' isVisible={sections.purchased} toggleVisibility={() => toggleSection('purchased')} />
+                        <Item title='판매한 상품' isVisible={sections.sold} toggleVisibility={() => toggleSection('sold')} />
+                        <Item title='찜한 상품' isVisible={sections.wishlist} toggleVisibility={() => toggleSection('wishlist')} />
                     </div>
                 </div>
             </main>

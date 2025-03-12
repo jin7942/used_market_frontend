@@ -1,7 +1,7 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-const ProductForm = () => {
+const ItemForm = () => {
     return (
         <div className='d-flex flex-column min-vh-100'>
             {/* Header */}
@@ -13,4 +13,4 @@ const ProductForm = () => {
     );
 };
 
-export default ProductForm;
+export default ItemForm;
