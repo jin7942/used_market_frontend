@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ItemCard from '../components/ItemCard';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const ItemDetail = () => {
     const { id } = useParams(); // URL에서 상품 ID 가져오기
@@ -29,10 +29,12 @@ const ItemDetail = () => {
                             <p>상품 설명: 이곳에 상품 설명이 들어갑니다. 상태가 좋고 사용감이 적습니다.</p>
                         </div>
 
-                        {/* 버튼을 이미지 하단과 같은 라인에 정렬 */}
                         <div className='d-flex justify-content-end'>
                             <button className='btn btn-primary me-2'>채팅하기</button>
-                            <button className='btn btn-outline-secondary'>찜하기</button>
+                            <button className='btn btn-outline-secondary me-2'>찜하기</button>
+                            <Link to='/order'>
+                                <button className='btn btn-dark'>결제하기</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

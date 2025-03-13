@@ -3,6 +3,7 @@ import Footer from '../components/Footer';
 import ItemCard from '../components/ItemCard';
 import Pagination from '../components/Pagination';
 import DeveloperCard from '../components/DeveloperCard';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
@@ -15,6 +16,9 @@ const Home = () => {
                 <div className='d-flex justify-content-between align-items-center mb-4'>
                     <h1 className='mb-0'>상품 목록</h1>
                     <input type='text' className='form-control w-50 fw-bold border-2 p-2' placeholder='검색어 입력...' />
+                    <Link to='/item'>
+                        <button className='btn btn-dark'>상품 등록</button>
+                    </Link>
                 </div>
 
                 {/* Item list */}
