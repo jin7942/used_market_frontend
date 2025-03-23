@@ -1,6 +1,7 @@
 // 로그인 모달
 import propTypes from 'prop-types';
 import { Link } from 'react-router';
+import config from '../common/_config';
 
 const Login = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
