@@ -1,6 +1,8 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import useFormValidation from '../hooks/useFormValidation';
+import API from '../common/api';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Signup 컴포넌트
@@ -9,8 +11,10 @@ import useFormValidation from '../hooks/useFormValidation';
  * - 가입 버튼 클릭 시 전체 유효성 검사 후 API 요청 준비
  */
 const Signup = () => {
+    const navigate = useNavigate();
+
     // useFormValidation 훅으로 폼 상태와 유효성 로직 관리
-    const { formData, errors, isFormValid, agreed, handleChange, handleCheckbox, validateAll } = useFormValidation({
+    const { formData, errors, isFormValid, agreed, emailAvailable, nicknameAvailable, handleChange, handleCheckbox, validateAll } = useFormValidation({
         userEmail: '',
         userPassword: '',
         userPasswordCheck: '',
@@ -24,7 +28,7 @@ const Signup = () => {
      * - 유효하면 서버로 전송할 준비
      * @param {React.MouseEvent} e - 버튼 클릭 이벤트 객체
      */
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
 
         const valid = validateAll();
@@ -37,9 +41,24 @@ const Signup = () => {
             return;
         }
 
-        console.log('회원가입 요청 데이터:', formData);
-        // TODO: axios.post('/api/auth/register', formData) 로직 추가 예정
-        // TODO: 중복체크 구현
+        try {
+            // 회원가입 요청
+            await API.post('/users/auth/register', formData);
+
+            // 회원가입 성공 후 로그인 API 호출
+            const loginResponse = await API.post('/users/auth/login', {
+                userEmail: formData.userEmail,
+                userPassword: formData.userPassword,
+            });
+
+            const { token } = loginResponse.data;
+            localStorage.setItem('token', token); // JWT 토큰 저장
+
+            alert('회원가입이 완료 되었습니다.');
+            navigate('/');
+        } catch (err) {
+            console.error('회원가입/로그인 실패', err);
+        }
     };
 
     return (
@@ -58,11 +77,15 @@ const Signup = () => {
                             <input
                                 type='text'
                                 name='userEmail'
-                                className={`form-control ${errors.userEmail ? 'is-invalid' : ''}`}
+                                className={`form-control ${
+                                    errors.userEmail || emailAvailable === false ? 'is-invalid' : emailAvailable === true ? 'is-valid' : ''
+                                }`}
                                 onChange={handleChange}
                                 onBlur={handleChange}
                             />
                             {errors.userEmail && <p className='text-danger'>{errors.userEmail}</p>}
+                            {emailAvailable === false && <p className='text-danger'>이미 사용 중인 이메일입니다.</p>}
+                            {emailAvailable === true && !errors.userEmail && <p className='text-success'>사용 가능한 이메일입니다.</p>}
 
                             {/* 비밀번호 입력 */}
                             <label className='form-label text-start d-block mb-3'>Password</label>
@@ -96,11 +119,15 @@ const Signup = () => {
                             <input
                                 type='text'
                                 name='userNickname'
-                                className={`form-control mb-3 ${errors.userNickname ? 'is-invalid' : ''}`}
+                                className={`form-control ${
+                                    errors.userNickname || nicknameAvailable === false ? 'is-invalid' : nicknameAvailable === true ? 'is-valid' : ''
+                                }`}
                                 onChange={handleChange}
                                 onBlur={handleChange}
                             />
                             {errors.userNickname && <p className='text-danger'>{errors.userNickname}</p>}
+                            {nicknameAvailable === false && <p className='text-danger'>이미 사용 중인 닉네임입니다.</p>}
+                            {nicknameAvailable === true && !errors.userNickname && <p className='text-success'>사용 가능한 닉네임입니다.</p>}
 
                             {/* 개인정보 동의 체크박스 */}
                             <div className='form-check mb-3 mt-3'>

@@ -12,7 +12,7 @@ const util = {
 
     // 비밀번호 유효성 검사 (최소 4자 이상)
     validatePassword: (password) => {
-        return password.length >= 4;
+        return password.length >= 4 && password.length <= 100;
     },
 
     // 비밀번호 확인 일치 여부
@@ -22,7 +22,7 @@ const util = {
 
     // 닉네임 유효성 검사 (2자 이상, 공백 제거)
     validateNickname: (nickname) => {
-        return nickname.trim().length >= 2;
+        return nickname.trim().length >= 2 && nickname.trim().length <= 10;
     },
 
     // 모든 필드 값이 비어있지 않은지 검사

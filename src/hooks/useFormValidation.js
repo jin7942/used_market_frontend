@@ -1,11 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import util from '../common/util';
+import API from '../common/api';
 
 const useFormValidation = (initialState) => {
     const [formData, setFormData] = useState(initialState);
     const [errors, setErrors] = useState({});
     const [agreed, setAgreed] = useState(false);
     const [isFormValid, setIsFormValid] = useState(false);
+    const [emailAvailable, setEmailAvailable] = useState(null);
+    const [nicknameAvailable, setNicknameAvailable] = useState(null);
+
+    const debounceTimer = useRef({
+        userEmail: null,
+        userNickname: null,
+    });
+
+    const checkDuplicate = (field, value) => {
+        // 상태 초기화
+        if (field === 'userEmail') setEmailAvailable(null);
+        if (field === 'userNickname') setNicknameAvailable(null);
+
+        clearTimeout(debounceTimer.current[field]);
+
+        debounceTimer.current[field] = setTimeout(() => {
+            const url = field === 'userEmail' ? '/users/auth/check-email' : '/users/auth/check-nickname';
+
+            const data = field === 'userEmail' ? { userEmail: value } : { userNickname: value };
+
+            // 서버에 요청
+            API.post(url, data)
+                .then((res) => {
+                    if (field === 'userEmail') setEmailAvailable(res.data.available);
+                    else setNicknameAvailable(res.data.available);
+                })
+                .catch((err) => console.error(err));
+        }, 500);
+    };
 
     // 단일 필드 검사
     const validateField = (name, value) => {
@@ -14,12 +44,16 @@ const useFormValidation = (initialState) => {
         switch (name) {
             case 'userEmail':
                 return util.validateEmail(value) ? '' : '이메일 형식이 올바르지 않습니다.';
+
             case 'userPassword':
                 return util.validatePassword(value) ? '' : '비밀번호는 4자 이상이어야 합니다.';
+
             case 'userNickname':
-                return util.validateNickname(value) ? '' : '닉네임은 2자 이상이어야 합니다.';
+                return util.validateNickname(value) ? '' : '닉네임은 2자 이상, 10자 이하 이어야 합니다.';
+
             case 'userPasswordCheck':
                 return value !== formData.userPassword ? '비밀번호가 일치하지 않습니다.' : '';
+
             default:
                 return '';
         }
@@ -49,6 +83,14 @@ const useFormValidation = (initialState) => {
 
         const errorMsg = validateField(name, value);
         setErrors((prev) => ({ ...prev, [name]: errorMsg }));
+
+        // 형식이 유효할 경우에만 중복 체크 요청
+        if (name === 'userEmail' && util.validateEmail(value)) {
+            checkDuplicate('userEmail', value);
+        }
+        if (name === 'userNickname' && util.validateNickname(value)) {
+            checkDuplicate('userNickname', value);
+        }
     };
 
     // 체크박스 처리
@@ -62,16 +104,23 @@ const useFormValidation = (initialState) => {
         if (!isErrorChecked) return;
 
         const valid =
-            Object.values(errors).every((v) => !v) && Object.values(formData).every((v) => v) && formData.userPassword === formData.userPasswordCheck && agreed;
+            Object.values(errors).every((v) => !v) &&
+            Object.values(formData).every((v) => v) &&
+            formData.userPassword === formData.userPasswordCheck &&
+            agreed &&
+            emailAvailable === true &&
+            nicknameAvailable === true;
 
         setIsFormValid(valid);
-    }, [formData, errors, agreed]);
+    }, [formData, errors, agreed, emailAvailable, nicknameAvailable]);
 
     return {
         formData,
         errors,
         isFormValid,
         agreed,
+        emailAvailable,
+        nicknameAvailable,
         handleChange,
         handleCheckbox,
         validateAll,
