@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Login from '../pages/Login';
 import { Link } from 'react-router-dom';
 
+// TODO: jwt 보유 여부에 따라 메뉴 바꾸기
 const Header = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
