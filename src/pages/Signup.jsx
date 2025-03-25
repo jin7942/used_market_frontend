@@ -3,6 +3,7 @@ import Footer from '../components/Footer';
 import useFormValidation from '../hooks/useFormValidation';
 import API from '../common/api';
 import { useNavigate } from 'react-router-dom';
+import util from '../common/util';
 
 /**
  * Signup 컴포넌트
@@ -25,7 +26,9 @@ const Signup = () => {
      * 회원가입 버튼 클릭 시 실행되는 함수
      * - 전체 유효성 검사 실행
      * - 유효하지 않으면 첫 에러 항목에 focus
-     * - 유효하면 서버로 전송할 준비
+     * - 유효하면 회원가입 요청
+     * - 회원가입에 성공하면 로그인 API 호출
+     * - 로그인에 성공하면 메인페이지로 이동
      * @param {React.MouseEvent} e - 버튼 클릭 이벤트 객체
      */
     const handleSignUp = async (e) => {
@@ -46,16 +49,12 @@ const Signup = () => {
             await API.post('/users/auth/register', formData);
 
             // 회원가입 성공 후 로그인 API 호출
-            const loginResponse = await API.post('/users/auth/login', {
-                userEmail: formData.userEmail,
-                userPassword: formData.userPassword,
-            });
+            const { success, err } = await util.loginUser(formData.userEmail, formData.userPassword);
 
-            const { token } = loginResponse.data;
-            localStorage.setItem('token', token); // JWT 토큰 저장
-
-            alert('회원가입이 완료 되었습니다.');
-            navigate('/');
+            if (success) {
+                alert('회원가입이 완료 되었습니다.');
+                navigate('/');
+            } else alert(err);
         } catch (err) {
             console.error('회원가입/로그인 실패', err);
         }

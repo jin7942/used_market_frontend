@@ -15,6 +15,7 @@ const useFormValidation = (initialState) => {
         userNickname: null,
     });
 
+    // 중복체크
     const checkDuplicate = (field, value) => {
         // 상태 초기화
         if (field === 'userEmail') setEmailAvailable(null);
@@ -37,35 +38,13 @@ const useFormValidation = (initialState) => {
         }, 500);
     };
 
-    // 단일 필드 검사
-    const validateField = (name, value) => {
-        if (util.hasInvalidChar(value)) return '특수문자는 사용할 수 없습니다.';
-
-        switch (name) {
-            case 'userEmail':
-                return util.validateEmail(value) ? '' : '이메일 형식이 올바르지 않습니다.';
-
-            case 'userPassword':
-                return util.validatePassword(value) ? '' : '비밀번호는 4자 이상이어야 합니다.';
-
-            case 'userNickname':
-                return util.validateNickname(value) ? '' : '닉네임은 2자 이상, 10자 이하 이어야 합니다.';
-
-            case 'userPasswordCheck':
-                return value !== formData.userPassword ? '비밀번호가 일치하지 않습니다.' : '';
-
-            default:
-                return '';
-        }
-    };
-
     // 모든 필드 검사
     const validateAll = () => {
         const newErrors = {};
         let isValid = true;
 
         Object.entries(formData).forEach(([key, value]) => {
-            const errorMsg = validateField(key, value);
+            const errorMsg = util.validateField(key, value, formData);
             newErrors[key] = errorMsg;
             if (errorMsg) isValid = false;
         });
@@ -81,7 +60,7 @@ const useFormValidation = (initialState) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
 
-        const errorMsg = validateField(name, value);
+        const errorMsg = util.validateField(name, value, formData);
         setErrors((prev) => ({ ...prev, [name]: errorMsg }));
 
         // 형식이 유효할 경우에만 중복 체크 요청
