@@ -69,7 +69,6 @@ const util = {
             return { success: true, token };
         } catch (err) {
             let errMsg = '로그인에 실패했습니다. 다시 시도해주세요.';
-
             if (err.response) {
                 // 서버 에러 처리
                 errMsg = err.response.data.message || errMsg;
@@ -77,7 +76,6 @@ const util = {
                 // 네트워크 에러 처리
                 errMsg = '네트워크 연결 오류입니다. 다시 시도해주세요.';
             }
-
             return { success: false, err: errMsg };
         }
     },

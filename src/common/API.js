@@ -37,7 +37,11 @@ API.interceptors.request.use((req) => {
 API.interceptors.response.use(
     (res) => res, // 성공적인 응답은 그대로 리턴
     (error) => {
-        if (error.response && error.response.status === 401) {
+        const originalUrl = error.config?.url;
+
+        const isAuthApi = ['/users/auth/login', '/users/auth/register'].some((url) => originalUrl.includes(url));
+
+        if (error.response && error.response.status === 401 && !isAuthApi) {
             // 401 에러가 발생하면 로그인 페이지로 리다이렉트 또는 로그인 요청
             alert('로그인이 필요한 페이지 입니다.');
             window.location.href = '/';

@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Login from '../pages/Login';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-// TODO: jwt 보유 여부에 따라 메뉴 바꾸기
 const Header = () => {
+    // 모달 상태값
     const [isModalOpen, setIsModalOpen] = useState(false);
+    // 로그인 상태값
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+    const navigate = useNavigate();
+
+    // 로그아웃 함수
+    const handleLogout = () => {
+        localStorage.clear();
+        setIsLoggedIn(false);
+        navigate('/');
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    }, []);
 
     return (
         <header className='header mb-5'>
@@ -48,17 +63,29 @@ const Header = () => {
 
                         {/* 회원가입 및 로그인 버튼 */}
                         <div className='d-flex align-items-center'>
-                            <Link to='/myPage' className='nav-link'>
-                                <button className='btn btn-secondary ms-2'>MyPage</button>
-                            </Link>
-                            <Link to='/signup' className='nav-link'>
-                                <button className='btn btn-secondary ms-2'>SignUp</button>
-                            </Link>
-                            <button onClick={() => setIsModalOpen(true)} className='btn btn-secondary ms-2'>
-                                Login
-                            </button>
+                            {isLoggedIn ? (
+                                <>
+                                    <Link to='/myPage' className='nav-link'>
+                                        <button className='btn btn-secondary ms-2'>MyPage</button>
+                                    </Link>
+                                    <div className='nav-link'>
+                                        <button className='btn btn-secondary ms-2' onClick={handleLogout}>
+                                            Logout
+                                        </button>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <Link to='/signup' className='nav-link'>
+                                        <button className='btn btn-secondary ms-2'>SignUp</button>
+                                    </Link>
+                                    <button onClick={() => setIsModalOpen(true)} className='btn btn-secondary ms-2'>
+                                        Login
+                                    </button>
+                                </>
+                            )}
                         </div>
-                        <Login isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                        <Login isOpen={isModalOpen} setIsLoggedIn={setIsLoggedIn} onClose={() => setIsModalOpen(false)} />
                     </div>
                 </div>
             </nav>

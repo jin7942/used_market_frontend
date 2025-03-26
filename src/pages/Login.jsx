@@ -1,10 +1,10 @@
 // 로그인 모달
 import propTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import util from '../common/util';
 import { useState } from 'react';
 
-const Login = ({ isOpen, onClose }) => {
+const Login = ({ isOpen, onClose, setIsLoggedIn }) => {
     const [formData, setFormData] = useState({
         userEmail: '',
         userPassword: '',
@@ -32,8 +32,10 @@ const Login = ({ isOpen, onClose }) => {
         const res = await util.loginUser(formData.userEmail, formData.userPassword);
         if (res.success === true) {
             onClose();
+            setIsLoggedIn(true);
         } else {
             alert(res.err);
+            setFormData({ userEmail: '', userPassword: '' });
         }
     };
 
@@ -54,11 +56,22 @@ const Login = ({ isOpen, onClose }) => {
                             <form>
                                 {/* input for Email */}
                                 <label className='form-label text-start d-block mb-3'>Email</label>
-                                <input type='text' className='form-control' name='userEmail' value={formData.useremail} onChange={onChange} />
+                                <input type='text' className='form-control' name='userEmail' value={formData.userEmail} onChange={onChange} />
 
                                 {/* input for Password */}
                                 <label className='form-label text-start d-block mb-3'>Password</label>
-                                <input type='password' className='form-control mb-3' name='userPassword' value={formData.userPassword} onChange={onChange} />
+                                <input
+                                    type='password'
+                                    className='form-control mb-3'
+                                    name='userPassword'
+                                    value={formData.userPassword}
+                                    onChange={onChange}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleLogin(e);
+                                        }
+                                    }}
+                                />
 
                                 <hr />
                                 <button className='form-control d-block btn btn-success mb-3'>NAVER</button>
