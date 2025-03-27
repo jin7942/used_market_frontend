@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemCardSmall from './ItemSmall';
 
+// MyPage
 const ItemSection = ({ title, isVisible, toggleVisibility }) => (
     <div className='card shadow-sm p-3 mb-4'>
         <div className='d-flex justify-content-between align-items-center'>

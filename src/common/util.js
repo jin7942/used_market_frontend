@@ -63,10 +63,12 @@ const util = {
                 userPassword,
             });
 
-            const { token } = loginResponse.data;
-            localStorage.setItem('token', token); // JWT 토큰 저장
+            const { token, seq, userNickname } = loginResponse.data.data;
 
-            return { success: true, token };
+            localStorage.setItem('token', token); // JWT 토큰 저장
+            localStorage.setItem('userInfo', JSON.stringify({ seq, userNickname }));
+
+            return loginResponse.data;
         } catch (err) {
             let errMsg = '로그인에 실패했습니다. 다시 시도해주세요.';
             if (err.response) {

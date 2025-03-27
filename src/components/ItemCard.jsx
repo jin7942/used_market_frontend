@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ItemCard = () => {
+const ItemCard = (item) => {
     return (
         <div className='col-md-4 mb-3'>
-            <Link to='/itemDetail' className='text-decoration-none text-dark'>
+            <Link to='/itemDetail' className='text-decoration-none text-dark' itemSeq={item.seq}>
                 <div className='card Item-card shadow-sm'>
-                    <img src='/img/evangelion_ray_2.jpg' className='card-img-top' alt='ray' />
+                    <img src={`${item.imgUploadPath}${item.imgUploadUuidName}${item.imgUploadExt}`} className='card-img-top' alt={item.itemTitle} />
                     <div className='card-body'>
-                        <h5 className='card-title'>Im title</h5>
-                        <p className='card-text'>1234원</p>
+                        <h5 className='card-title'>{item.itemTitle}</h5>
+                        <p className='card-text'>{item.itemPrice}</p>
                         <button className='btn btn-dark'>자세히 보기</button>
                     </div>
                 </div>

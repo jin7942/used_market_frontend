@@ -47,14 +47,14 @@ const Signup = () => {
         try {
             // 회원가입 요청
             await API.post('/users/auth/register', formData);
+            alert('회원가입이 완료 되었습니다.');
 
             // 회원가입 성공 후 로그인 API 호출
-            const { success, err } = await util.loginUser(formData.userEmail, formData.userPassword);
+            const res = await util.loginUser(formData.userEmail, formData.userPassword);
 
-            if (success) {
-                alert('회원가입이 완료 되었습니다.');
+            if (res) {
                 navigate('/');
-            } else alert(err);
+            } else alert('로그인에 실패 하였습니다.');
         } catch (err) {
             console.error('회원가입/로그인 실패', err);
         }

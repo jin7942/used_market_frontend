@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Login from '../pages/Login';
 import { Link, useNavigate } from 'react-router-dom';
 
+// TODO: 헤더에 사용자 정보 표시
 const Header = () => {
     // 모달 상태값
     const [isModalOpen, setIsModalOpen] = useState(false);
     // 로그인 상태값
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
     const navigate = useNavigate();
+
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
     // 로그아웃 함수
     const handleLogout = () => {
@@ -66,6 +69,7 @@ const Header = () => {
                             {isLoggedIn ? (
                                 <>
                                     <Link to='/myPage' className='nav-link'>
+                                        <span className='nav-item text-white'>{userInfo.userNickname} 님</span>
                                         <button className='btn btn-secondary ms-2'>MyPage</button>
                                     </Link>
                                     <div className='nav-link'>

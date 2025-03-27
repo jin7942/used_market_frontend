@@ -31,8 +31,8 @@ const useFormValidation = (initialState) => {
             // 서버에 요청
             API.post(url, data)
                 .then((res) => {
-                    if (field === 'userEmail') setEmailAvailable(res.data.available);
-                    else setNicknameAvailable(res.data.available);
+                    if (field === 'userEmail') setEmailAvailable(res.data.data);
+                    else setNicknameAvailable(res.data.data);
                 })
                 .catch((err) => console.error(err));
         }, 500);

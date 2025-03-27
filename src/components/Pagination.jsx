@@ -1,32 +1,40 @@
-const Pagination = () => {
+/**
+ * 페이지 네이션
+ * @param {currentPage, totalPages, onPageChange} param0
+ * @returns
+ */
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+    const pageRange = 5;
+    const start = Math.floor(currentPage / totalPages) * pageRange;
+    const end = Math.min(start + pageRange, totalPages);
+
+    const pages = [];
+    for (let i = start; i < end; i++) {
+        pages.push(
+            <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
+                <button className='page-link' onClick={() => onPageChange(i)}>
+                    {i + 1}
+                </button>
+            </li>
+        );
+    }
+
     return (
         <div className='d-flex justify-content-center'>
-            <nav aria-label='...'>
+            <nav>
                 <ul className='pagination'>
-                    <li className='page-item disabled'>
-                        <a className='page-link' href='#' aria-disabled='true'>
+                    <li className={`page-item ${currentPage === 0 ? 'disabled' : ''}`}>
+                        <button className='page-link' onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 0}>
                             Previous
-                        </a>
+                        </button>
                     </li>
-                    <li className='page-item'>
-                        <a className='page-link' href='#'>
-                            1
-                        </a>
-                    </li>
-                    <li className='page-item active' aria-current='page'>
-                        <a className='page-link' href='#'>
-                            2
-                        </a>
-                    </li>
-                    <li className='page-item'>
-                        <a className='page-link' href='#'>
-                            3
-                        </a>
-                    </li>
-                    <li className='page-item'>
-                        <a className='page-link' href='#'>
+
+                    {pages}
+
+                    <li className={`page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}`}>
+                        <button className='page-link' onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages - 1}>
                             Next
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </nav>
