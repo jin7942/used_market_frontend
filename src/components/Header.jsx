@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Login from '../pages/Login';
 import { Link, useNavigate } from 'react-router-dom';
 
-// TODO: 헤더에 사용자 정보 표시
 const Header = () => {
     // 모달 상태값
     const [isModalOpen, setIsModalOpen] = useState(false);

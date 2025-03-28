@@ -2,11 +2,12 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ItemCard from '../components/ItemCard';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import API from '../common/api';
 
-const ItemDetail = (itemSeq) => {
+const ItemDetail = () => {
+    const { itemSeq } = useParams();
     // 상품
     const [item, setItem] = useState([]);
     // 썸네일
@@ -23,7 +24,7 @@ const ItemDetail = (itemSeq) => {
 
             setImgList(imgList);
             imgList.find((img) => {
-                if (img.imgSort === 0) setImg(img);
+                if (img.imgUploadSort === 0) setImg(img);
             });
         };
 
@@ -47,7 +48,7 @@ const ItemDetail = (itemSeq) => {
                 <div className='row'>
                     {/* 상품 이미지 썸네일 */}
                     <div className='col-md-6 d-flex align-items-end'>
-                        <img src={`${img.imgUploadPath}${img.imgUploadUuidName}${img.imgUploadExt}`} className='img-fluid rounded' alt={item.itemTitle} />
+                        <img src={`${img.imgUploadPath}${img.imgUploadUuidName}`} className='img-fluid rounded' alt={item.itemTitle} />
                     </div>
 
                     {/* 상품 정보 */}
@@ -73,7 +74,7 @@ const ItemDetail = (itemSeq) => {
                 <div className='row mt-5 mb-5 justify-content-center'>
                     {imgList.map((img, idx) => (
                         <div className='col-10 mb-3' key={img.imgUploadUuidName || idx}>
-                            <img src={`${img.imgUploadPath}${img.imgUploadUuidName}${img.imgUploadExt}`} className='img-fluid rounded' alt={item.itemTitle} />
+                            <img src={`${img.imgUploadPath}${img.imgUploadUuidName}`} className='img-fluid rounded' alt={item.itemTitle} />
                         </div>
                     ))}
                 </div>

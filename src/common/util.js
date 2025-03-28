@@ -49,6 +49,16 @@ const util = {
             case 'userPasswordCheck':
                 return value !== formData.userPassword ? '비밀번호가 일치하지 않습니다.' : '';
 
+            // 상품 등록 항목 추가
+            case 'itemTitle':
+                return value.trim().length >= 2 ? '' : '상품명은 2자 이상이어야 합니다.';
+
+            case 'itemPrice':
+                return parseInt(value) > 0 ? '' : '가격은 0보다 커야 합니다.';
+
+            case 'itemDescription':
+                return value.trim().length >= 5 ? '' : '설명은 최소 5자 이상이어야 합니다.';
+
             default:
                 return '';
         }

@@ -17,7 +17,7 @@ const App = () => {
                 <Route path='/signup' element={<Signup />} />
 
                 {/* 상세 페이지 */}
-                <Route path='/itemDetail' element={<ItemDetail />} />
+                <Route path='/item/detail/:itemSeq' element={<ItemDetail />} />
 
                 {/* 마이 페이지 */}
                 <Route path='/myPage' element={<MyPage />} />

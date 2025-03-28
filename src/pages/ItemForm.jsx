@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import API from '../components/api';
+import API from '../common/api';
+import util from '../common/util';
+import { useNavigate } from 'react-router-dom';
 
+// TODO: 가격 파싱 추가
 const ItemForm = () => {
     const [itemFormData, setItemFormData] = useState({
         itemTitle: '',
         itemDescription: '',
         itemPrice: '',
     });
+    const navigate = useNavigate();
 
     const [images, setImages] = useState([]);
     const [previews, setPreviews] = useState([]);
@@ -18,39 +22,77 @@ const ItemForm = () => {
         e.preventDefault();
 
         try {
-            // TODO: 수정
-            // 1단계: 상품 등록
-            const res = await API.post('/api/items/register', itemFormData);
+            // 유효성 검사
+            const errors = [
+                util.validateField('itemTitle', itemFormData.itemTitle),
+                util.validateField('itemPrice', itemFormData.itemPrice),
+                util.validateField('itemDescription', itemFormData.itemDescription),
+            ].filter(Boolean);
+
+            if (errors.length > 0) {
+                alert(errors[0]); // 가장 먼저 걸린 에러 하나만 표시
+                return;
+            }
+
+            // 상품 등록
+            const res = await API.post('/items/register', itemFormData);
             const itemSeq = res.data.data.seq;
+            if (!itemSeq) {
+                alert('상품 등록 실패');
+                return;
+            }
 
-            // 2단계: 이미지 업로드
-            const formData = new FormData();
-            images.forEach((file, idx) => {
-                formData.append('files', file);
-                formData.append('imgSorts', idx);
-            });
-            formData.append('itemSeq', itemSeq);
-
-            const uploadRes = await API.post('http://localhost:4000/api/uploadImg', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
-
-            // 3단계: 이미지 정보 백엔드 저장
-            const uploadedImgs = uploadRes.data.data; // 이미지서버 응답 (배열)
-            await API.post('/api/img/save', {
-                itemSeq: itemSeq,
-                imgList: uploadedImgs, // 배열 그대로 전달
-            });
-
-            alert('상품 및 이미지 등록 완료');
+            // 이후 이미지 업로드 → 백엔드 저장 진행
+            handleImageUpload(itemSeq);
+            navigate(`/item/detail/${itemSeq}`);
         } catch (err) {
             console.error(err);
             alert('오류 발생. 다시 시도해주세요.');
         }
     };
 
-    // 이미지 업로드 핸들러
-    const handleImageUpload = (event) => {
+    // 이미지 등록 핸들러
+    const handleImageUpload = async (itemSeq) => {
+        if (images.length > 5 || images.length === 0) {
+            alert('이미지는 최대 5장까지 업로드할 수 있으며, 최소 1장 이상 등록해야 됩니다.');
+            return;
+        }
+
+        try {
+            // 1. 이미지 서버 업로드
+            const formData = new FormData();
+            images.forEach((img) => formData.append('images', img));
+
+            const imgServerRes = await API.post('http://localhost:4000/api/uploadImg', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+
+            const uploadedList = imgServerRes.data.data;
+
+            // 2. 응답 데이터를 백엔드 DTO에 맞게 가공
+            const imgList = uploadedList.map((img) => ({
+                imgPseq: itemSeq, // 상품 등록 후 받은 PK
+                imgUploadSort: img.sort,
+                imgUploadName: img.originalname,
+                imgUploadUuidName: img.uuidName,
+                imgUploadPath: img.path,
+                imgUploadExt: img.ext,
+                imgUploadSize: img.fileSize,
+                imgUploadTypeCode: 'ITEM',
+            }));
+
+            // 3. 백엔드에 이미지 정보 저장 요청
+            await API.post('/imges/upload', { imgList });
+
+            alert('이미지 등록 성공');
+        } catch (err) {
+            console.error(err);
+            alert('이미지 업로드 중 오류 발생');
+        }
+    };
+
+    // 이미지 프리뷰 핸들러
+    const handleImagePreview = (event) => {
         const filesArray = Array.from(event.target.files);
 
         if (filesArray.length > 5) {
@@ -114,7 +156,7 @@ const ItemForm = () => {
                     {/* 우측 - 상품 등록 폼 */}
                     <div className='col-md-7'>
                         <div className='card shadow-sm p-4'>
-                            <form onSubmit={handleInstItem}>
+                            <form>
                                 {/* 상품명 */}
                                 <div className='mb-3'>
                                     <label className='form-label'>상품명</label>
@@ -157,10 +199,10 @@ const ItemForm = () => {
                                 {/* 이미지 업로드 */}
                                 <div className='mb-3'>
                                     <label className='form-label'>상품 이미지 업로드</label>
-                                    <input type='file' className='form-control' multiple accept='image/*' onChange={handleImageUpload} />
+                                    <input type='file' className='form-control' multiple accept='image/*' onChange={handleImagePreview} />
                                 </div>
 
-                                <button type='submit' className='btn btn-primary w-100 mt-3'>
+                                <button type='button' className='btn btn-primary w-100 mt-3' onClick={handleInstItem}>
                                     상품 등록
                                 </button>
                             </form>
