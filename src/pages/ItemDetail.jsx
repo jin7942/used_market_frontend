@@ -8,11 +8,11 @@ import API from '../common/api';
 
 const ItemDetail = (itemSeq) => {
     // 상품
-    const [item, setItem] = useState();
+    const [item, setItem] = useState([]);
     // 썸네일
-    const [img, setImg] = useState();
+    const [img, setImg] = useState([]);
     // 이미지 리스트
-    const [imgList, setImgList] = useState();
+    const [imgList, setImgList] = useState([]);
 
     // 상품 조회
     useEffect(() => {
