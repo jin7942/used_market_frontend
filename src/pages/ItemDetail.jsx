@@ -5,6 +5,7 @@ import ItemCard from '../components/ItemCard';
 import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import API from '../common/api';
+import util from '../common/util';
 
 const ItemDetail = () => {
     const { itemSeq } = useParams();
@@ -55,7 +56,7 @@ const ItemDetail = () => {
                     <div className='col-md-6 d-flex flex-column justify-content-between'>
                         <div>
                             <h2>{item.itemTitle}</h2>
-                            <h4 className='text-danger'>{item.itemPrice}</h4>
+                            <h4 className='text-danger'>{util.formatPrice(item.itemPrice)} 원</h4>
                             <h5>{item.userNickname}</h5>
                             <p>{item.itemDescription}</p>
                         </div>

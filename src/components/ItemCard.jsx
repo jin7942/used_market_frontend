@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import util from '../common/util';
 
 const ItemCard = ({ item }) => {
     return (
@@ -9,7 +10,7 @@ const ItemCard = ({ item }) => {
                     <img src={`${item.imgUploadPath}${item.imgUploadUuidName}`} className='card-img-top' alt={item.itemTitle} />
                     <div className='card-body'>
                         <h5 className='card-title'>{item.itemTitle}</h5>
-                        <p className='card-text'>{item.itemPrice}</p>
+                        <p className='card-text'>{util.formatPrice(item.itemPrice)} 원</p>
                         <button className='btn btn-dark'>자세히 보기</button>
                     </div>
                 </div>

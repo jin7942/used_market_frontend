@@ -91,6 +91,11 @@ const util = {
             return { success: false, err: errMsg };
         }
     },
+
+    formatPrice: (price) => {
+        if (typeof price !== 'number') return '';
+        return price.toLocaleString('ko-KR');
+    },
 };
 
 export default util;
