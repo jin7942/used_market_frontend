@@ -1,18 +1,45 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useState, useEffect } from 'react';
+import API from '../common/api';
+import util from '../common/util';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Order = () => {
-    // 샘플 상품 데이터
-    const products = [
-        { id: 1, title: '상품 제목 1', price: 120000, seller: '판매자A', image: '../../public/img/evangelion_ray_2.jpg' },
-        { id: 2, title: '상품 제목 2', price: 150000, seller: '판매자B', image: '../../public/img/evangelion_ray_2.jpg' },
-        { id: 3, title: '상품 제목 3', price: 90000, seller: '판매자C', image: '../../public/img/evangelion_ray_2.jpg' },
-    ];
+    const [products, setProducts] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const navigate = useNavigate();
 
-    // 총 결제 금액 계산
-    const totalPrice = products.reduce((acc, item) => acc + item.price, 0);
-    const shippingFee = 3000;
-    const finalPrice = totalPrice + shippingFee;
+    const handlePayment = async () => {
+        const confirmed = window.confirm('결제 하시겠습니까?');
+        if (!confirmed) return;
+
+        const itemSeqList = products.map((product) => {
+            return product.seq;
+        });
+
+        const res = await API.post('/orders/pay', itemSeqList);
+        if (res.data.data) {
+            alert('결제가 완료 되었습니다.');
+            navigate('/myPage');
+        } else {
+            alert('결제가 실패 하였습니다.');
+        }
+    };
+
+    useEffect(() => {
+        const getWishlist = async () => {
+            const res = await API.get('/orders/wishlist');
+            const items = res.data.data;
+            setProducts(items);
+
+            const total = items.reduce((sum, item) => sum + item.itemPrice, 0);
+            setTotalPrice(total);
+        };
+
+        getWishlist();
+    }, []);
 
     return (
         <div className='d-flex flex-column min-vh-100'>
@@ -30,21 +57,23 @@ const Order = () => {
                             <h4 className='mb-3'>구매할 상품 목록</h4>
                             <ul className='list-group'>
                                 {products.map((product) => (
-                                    <li key={product.id} className='list-group-item d-flex justify-content-between align-items-center'>
-                                        <div className='d-flex align-items-center'>
-                                            <img
-                                                src={product.image}
-                                                alt='상품 이미지'
-                                                style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px', marginRight: '15px' }}
-                                            />
-                                            <div>
-                                                <h5 className='mb-1'>{product.title}</h5>
-                                                <p className='text-muted'>
-                                                    판매자: <strong>{product.seller}</strong>
-                                                </p>
+                                    <li key={product.seq} className='list-group-item d-flex justify-content-between align-items-center'>
+                                        <Link to={`/item/detail/${product.seq}`} className='text-decoration-none text-dark'>
+                                            <div className='d-flex align-items-center'>
+                                                <img
+                                                    src={`${product.imgUploadPath}${product.imgUploadUuidName}`}
+                                                    alt={product.itemDescription}
+                                                    style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px', marginRight: '15px' }}
+                                                />
+                                                <div>
+                                                    <h5 className='mb-1'>{product.itemTitle}</h5>
+                                                    <p className='text-muted'>
+                                                        판매자: <strong>{product.userNickname}</strong>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <h5 className='text-primary'>₩ {product.price.toLocaleString()}</h5>
+                                        </Link>
+                                        <h5 className='text-primary'>₩ {util.formatPrice(product.itemPrice)} 원</h5>
                                     </li>
                                 ))}
                             </ul>
@@ -57,11 +86,11 @@ const Order = () => {
                             <h4 className='mb-3'>결제 금액</h4>
                             <div className='d-flex justify-content-between'>
                                 <span>상품 총액</span>
-                                <span>₩ {totalPrice.toLocaleString()}</span>
+                                <span>₩ {util.formatPrice(totalPrice)} 원</span>
                             </div>
                             <div className='d-flex justify-content-between'>
                                 <span>배송비</span>
-                                <span>₩ {shippingFee.toLocaleString()}</span>
+                                <span>₩ 3000 원</span>
                             </div>
                             <hr />
                             <div className='d-flex justify-content-between'>
@@ -69,10 +98,12 @@ const Order = () => {
                                     <strong>총 결제 금액</strong>
                                 </h5>
                                 <h5 className='text-danger'>
-                                    <strong>₩ {finalPrice.toLocaleString()}</strong>
+                                    <strong>₩ {util.formatPrice(totalPrice + 3000)} 원</strong>
                                 </h5>
                             </div>
-                            <button className='btn btn-success w-100 mt-3'>결제하기</button>
+                            <button className='btn btn-success w-100 mt-3' onClick={handlePayment}>
+                                결제하기
+                            </button>
                         </div>
                     </div>
                 </div>

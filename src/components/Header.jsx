@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Login from '../pages/Login';
 import { Link, useNavigate } from 'react-router-dom';
+import API from '../common/api';
 
 const Header = () => {
     // 모달 상태값
@@ -10,6 +11,8 @@ const Header = () => {
     const navigate = useNavigate();
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    // 장바구니 카운트
+    const [countWishlist, setCountWishlist] = useState();
 
     // 로그아웃 함수
     const handleLogout = () => {
@@ -21,6 +24,13 @@ const Header = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
+
+        const getWishlistCount = async () => {
+            const res = await API.get('/orders/wishlist/count');
+            setCountWishlist(res.data.data);
+        };
+
+        getWishlistCount();
     }, []);
 
     return (
@@ -68,7 +78,13 @@ const Header = () => {
                             {isLoggedIn ? (
                                 <>
                                     <Link to='/myPage' className='nav-link'>
-                                        <span className='nav-item text-white'>{userInfo.userNickname} 님</span>
+                                        <span className='nav-item text-white'>{userInfo.userNickname} 님 </span>
+                                    </Link>
+                                    <Link to='/order'>
+                                        <span className='nav-item text-white ms-2'> 장바구니 </span>
+                                        <span className='nav-item text-danger'> + {countWishlist} </span>
+                                    </Link>
+                                    <Link to='/myPage' className='nav-link'>
                                         <button className='btn btn-secondary ms-2'>MyPage</button>
                                     </Link>
                                     <div className='nav-link'>

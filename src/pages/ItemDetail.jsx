@@ -15,6 +15,17 @@ const ItemDetail = () => {
     const [img, setImg] = useState([]);
     // 이미지 리스트
     const [imgList, setImgList] = useState([]);
+    // 찜하기 여부
+    const [isWished, setIsWished] = useState(null);
+
+    const handleOnClick = () => {
+        if (!isWished) handleSetWish();
+    };
+
+    const handleSetWish = async () => {
+        const res = await API.post(`/orders/wishlist?itemSeq=${itemSeq}`);
+        setIsWished(res.data.data);
+    };
 
     // 상품 조회
     useEffect(() => {
@@ -35,6 +46,13 @@ const ItemDetail = () => {
             setItem(res.data.data);
         };
 
+        // 찜하기 조회
+        const getIsWished = async () => {
+            const res = await API.get(`/orders/wishlist/checkIfWished?itemSeq=${itemSeq}`);
+            setIsWished(res.data.data);
+        };
+
+        getIsWished();
         getImgList();
         getItemOne();
     }, [itemSeq]);
@@ -42,7 +60,7 @@ const ItemDetail = () => {
     return (
         <div className='d-flex flex-column min-vh-100'>
             {/* Header */}
-            <Header />
+            <Header key={isWished} />
 
             {/* Main Content */}
             <main className='container mt-5 flex-grow-1'>
@@ -63,9 +81,21 @@ const ItemDetail = () => {
 
                         <div className='d-flex justify-content-end'>
                             <button className='btn btn-primary me-2'>채팅하기</button>
-                            <button className='btn btn-outline-secondary me-2'>찜하기</button>
+
+                            {isWished ? (
+                                <button className='btn btn-success me-2' onClick={handleSetWish}>
+                                    찜한 상품
+                                </button>
+                            ) : (
+                                <button className='btn btn-outline-secondary me-2' onClick={handleSetWish}>
+                                    찜하기
+                                </button>
+                            )}
+
                             <Link to='/order'>
-                                <button className='btn btn-dark'>결제하기</button>
+                                <button className='btn btn-dark' onClick={handleOnClick}>
+                                    결제하기
+                                </button>
                             </Link>
                         </div>
                     </div>

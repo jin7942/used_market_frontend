@@ -5,7 +5,6 @@ import API from '../common/api';
 import util from '../common/util';
 import { useNavigate } from 'react-router-dom';
 
-// TODO: 가격 파싱 추가
 const ItemForm = () => {
     const [itemFormData, setItemFormData] = useState({
         itemTitle: '',
@@ -27,10 +26,10 @@ const ItemForm = () => {
                 util.validateField('itemTitle', itemFormData.itemTitle),
                 util.validateField('itemPrice', itemFormData.itemPrice),
                 util.validateField('itemDescription', itemFormData.itemDescription),
+                util.validateRequiredFields(itemFormData) ? '' : '모든 항목을 입력해 주세요',
             ].filter(Boolean);
-
-            if (errors.length > 0) {
-                alert(errors[0]); // 가장 먼저 걸린 에러 하나만 표시
+            if (errors.length > 0 || images.length < 1) {
+                alert(errors[0] || '이미지를 한 장 이상 등록하세요.');
                 return;
             }
 
@@ -43,7 +42,7 @@ const ItemForm = () => {
             }
 
             // 이후 이미지 업로드 → 백엔드 저장 진행
-            handleImageUpload(itemSeq);
+            await handleImageUpload(itemSeq);
             navigate(`/item/detail/${itemSeq}`);
         } catch (err) {
             console.error(err);
@@ -64,7 +63,10 @@ const ItemForm = () => {
             images.forEach((img) => formData.append('images', img));
 
             const imgServerRes = await API.post('http://localhost:4000/api/uploadImg', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+                headers: {
+                    'x-api-key': 'SEXY_GUY_USED_MARKET',
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
             const uploadedList = imgServerRes.data.data;
