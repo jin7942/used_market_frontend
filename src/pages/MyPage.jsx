@@ -4,12 +4,15 @@ import Footer from '../components/Footer';
 import Item from '../components/Item';
 
 const MyPage = () => {
+    const products = useState([]);
     const [sections, setSections] = useState({
         selling: false,
         purchased: false,
         sold: false,
         wishlist: false,
     });
+
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
     const toggleSection = (sectionName) => {
         setSections((prev) => ({
@@ -38,8 +41,7 @@ const MyPage = () => {
                                 style={{ width: '100px', height: '100px' }}
                             />
                             <div className='card-body'>
-                                <h5 className='card-title'>사용자 이름</h5>
-                                <p className='text-muted'>user@example.com</p>
+                                <h5 className='card-title'>{userInfo.userNickname}</h5>
                                 <button className='btn btn-primary'>프로필 수정</button>
                             </div>
                         </div>
@@ -57,10 +59,10 @@ const MyPage = () => {
 
                     {/* 거래 내역 & 찜한 상품 */}
                     <div className='col-md-8'>
-                        <Item title='판매중인 상품' isVisible={sections.selling} toggleVisibility={() => toggleSection('selling')} />
-                        <Item title='구매한 상품' isVisible={sections.purchased} toggleVisibility={() => toggleSection('purchased')} />
-                        <Item title='판매한 상품' isVisible={sections.sold} toggleVisibility={() => toggleSection('sold')} />
-                        <Item title='찜한 상품' isVisible={sections.wishlist} toggleVisibility={() => toggleSection('wishlist')} />
+                        <Item title='판매중인 상품' isVisible={sections.selling} toggleVisibility={() => toggleSection('selling')} products={products} />
+                        <Item title='구매한 상품' isVisible={sections.purchased} toggleVisibility={() => toggleSection('purchased')} products={products} />
+                        <Item title='판매한 상품' isVisible={sections.sold} toggleVisibility={() => toggleSection('sold')} products={products} />
+                        <Item title='찜한 상품' isVisible={sections.wishlist} toggleVisibility={() => toggleSection('wishlist')} products={products} />
                     </div>
                 </div>
             </main>

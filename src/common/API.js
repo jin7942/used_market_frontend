@@ -44,6 +44,7 @@ API.interceptors.response.use(
         if (error.response && error.response.status === 401 && !isAuthApi) {
             // 401 에러가 발생하면 로그인 페이지로 리다이렉트 또는 로그인 요청
             alert('로그인이 필요한 페이지 입니다.');
+            localStorage.clear();
             window.location.href = '/';
         }
         return Promise.reject(error); // 에러가 발생하면 rejected 상태로 처리

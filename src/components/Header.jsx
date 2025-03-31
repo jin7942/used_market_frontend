@@ -25,12 +25,14 @@ const Header = () => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
 
-        const getWishlistCount = async () => {
-            const res = await API.get('/orders/wishlist/count');
-            setCountWishlist(res.data.data);
-        };
+        if (token) {
+            const getWishlistCount = async () => {
+                const res = await API.get('/orders/wishlist/count');
+                setCountWishlist(res.data.data);
+            };
 
-        getWishlistCount();
+            getWishlistCount();
+        }
     }, []);
 
     return (
