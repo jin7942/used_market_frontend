@@ -12,7 +12,7 @@ const Header = () => {
 
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     // 장바구니 카운트
-    const [countWishlist, setCountWishlist] = useState();
+    const [countWishlist, setCountWishlist] = useState(0);
 
     // 로그아웃 함수
     const handleLogout = () => {

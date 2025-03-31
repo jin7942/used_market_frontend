@@ -28,7 +28,10 @@ const ItemCardSmall = ({ products }) => {
                             </div>
                         </div>
                     </Link>
-                    <h5 className='text-primary'>₩ {util.formatPrice(product.itemPrice)} 원</h5>
+                    <div className='text-end'>
+                        <h5 className='text-primary'>₩ {util.formatPrice(product.itemPrice)} 원</h5>
+                        <span className='text-dark'>{util.formatDate(product.updateDT)}</span>
+                    </div>
                 </li>
             ))}
         </ul>

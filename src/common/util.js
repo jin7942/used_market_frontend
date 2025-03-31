@@ -96,6 +96,20 @@ const util = {
         if (typeof price !== 'number') return '';
         return price.toLocaleString('ko-KR');
     },
+
+    formatDate: (isoString) => {
+        const padZero = (num) => {
+            return num < 10 ? `0${num}` : num;
+        };
+        const date = new Date(isoString);
+        const year = date.getFullYear();
+        const month = padZero(date.getMonth() + 1); // 월은 0부터 시작
+        const day = padZero(date.getDate());
+        const hours = padZero(date.getHours());
+        const minutes = padZero(date.getMinutes());
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    },
 };
 
 export default util;

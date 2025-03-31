@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Item from '../components/Item';
+import API from '../common/api';
 
 const MyPage = () => {
     const products = useState([]);
@@ -11,8 +12,9 @@ const MyPage = () => {
         sold: false,
         wishlist: false,
     });
+    const [userInfo, setUserInfo] = useState([]);
 
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
     const toggleSection = (sectionName) => {
         setSections((prev) => ({
@@ -20,6 +22,15 @@ const MyPage = () => {
             [sectionName]: !prev[sectionName],
         }));
     };
+
+    useEffect(() => {
+        const getUserInfo = async () => {
+            const res = await API.get('/users/info');
+            setUserInfo(res.data.data);
+            console.log(res.data.data);
+        };
+        getUserInfo();
+    }, []);
 
     return (
         <div className='d-flex flex-column min-vh-100'>
@@ -35,13 +46,14 @@ const MyPage = () => {
                     <div className='col-md-4'>
                         <div className='card text-center shadow-sm p-3'>
                             <img
-                                src='/img/evangelion_ray_2.jpg'
+                                src={userInfo.userProfileImg}
                                 className='card-img-top rounded-circle mx-auto'
                                 alt='User Profile'
                                 style={{ width: '100px', height: '100px' }}
                             />
                             <div className='card-body'>
                                 <h5 className='card-title'>{userInfo.userNickname}</h5>
+                                <h5 className='card-title'>{userInfo.userEmail}</h5>
                                 <button className='btn btn-primary'>프로필 수정</button>
                             </div>
                         </div>
