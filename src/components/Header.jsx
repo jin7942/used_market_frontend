@@ -1,24 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import Login from '../pages/Login';
 import { Link, useNavigate } from 'react-router-dom';
-import API from '../common/api';
+import API from '../common/API';
+import util from '../common/util';
 
 const Header = () => {
+    const navigate = useNavigate();
     // 모달 상태값
     const [isModalOpen, setIsModalOpen] = useState(false);
     // 로그인 상태값
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
-    const navigate = useNavigate();
-
+    // 로그인 사용자 정보
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
     // 장바구니 카운트
     const [countWishlist, setCountWishlist] = useState(0);
+    // 알림 카운트
+    const [countNotification, setCountNotification] = useState(0);
+    // 알림 목록
+    const [notificationList, setNotificationList] = useState([]);
 
     // 로그아웃 함수
     const handleLogout = () => {
         localStorage.clear();
         setIsLoggedIn(false);
         navigate('/');
+    };
+
+    // 드롭다운 알림 조회 함수
+    const handleDropdownOpen = async () => {
+        try {
+            const res = await API.get('/notification/getListIsReadFalse');
+            setNotificationList(res.data.data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    // 알림 전체 읽음 처리
+    const handleMarkAllAsRead = async () => {
+        try {
+            const notificationSeqList = notificationList.map((noti) => noti.seq);
+            await API.post('/notification/markAsRead', notificationSeqList);
+            setNotificationList([]);
+            setCountNotification(0);
+        } catch (e) {
+            console.error(e);
+        }
     };
 
     useEffect(() => {
@@ -30,7 +58,12 @@ const Header = () => {
                 const res = await API.get('/orders/wishlist/count');
                 setCountWishlist(res.data.data);
             };
+            const getNotificationCount = async () => {
+                const res = await API.get('/notification/count');
+                setCountNotification(res.data.data);
+            };
 
+            getNotificationCount();
             getWishlistCount();
         }
     }, []);
@@ -79,16 +112,65 @@ const Header = () => {
                         <div className='d-flex align-items-center'>
                             {isLoggedIn ? (
                                 <>
+                                    {/* 로그인 상태에서만 보임 */}
+                                    {/* 닉네임 */}
                                     <Link to='/myPage' className='nav-link'>
                                         <span className='nav-item text-white'>{userInfo.userNickname} 님 </span>
                                     </Link>
+                                    {/* 장바구니 */}
                                     <Link to='/order'>
                                         <span className='nav-item text-white ms-2'> 장바구니 </span>
-                                        <span className='nav-item text-danger'> + {countWishlist} </span>
+                                        <span className='nav-item text-danger'>
+                                            <strong> [{countWishlist}]</strong>{' '}
+                                        </span>
                                     </Link>
+                                    {/* 알림 */}
+                                    <div className='nav-item dropdown me-3'>
+                                        <span
+                                            className='nav-link dropdown-toggle ms-2 text-white'
+                                            role='button'
+                                            id='notificationDropdown'
+                                            data-bs-toggle='dropdown'
+                                            aria-expanded='false'
+                                            onClick={handleDropdownOpen}
+                                        >
+                                            알림<strong className='text-danger ms-2'>[{countNotification}]</strong>
+                                        </span>
+                                        <ul className='dropdown-menu dropdown-menu-end' aria-labelledby='notificationDropdown'>
+                                            {notificationList.length > 0 ? (
+                                                <>
+                                                    {notificationList.map((noti) => (
+                                                        <Link key={noti.seq} to={`/item/detail/${noti.itemSeq}`} className='text-decoration-none text-dark'>
+                                                            <li className='dropdown-item d-flex justify-content-between align-items-center'>
+                                                                <span className='text-truncate'>{noti.notificationMessage}</span>
+                                                                <small className='text-muted ms-3'>{util.formatTime(noti.updateDT)}</small>
+                                                                <h2>{noti.itemSeq}</h2>
+                                                            </li>
+                                                        </Link>
+                                                    ))}
+                                                    <li>
+                                                        <hr className='dropdown-divider' />
+                                                    </li>
+                                                    <li className='text-center'>
+                                                        <button className='btn btn-sm btn-outline-secondary w-100' onClick={handleMarkAllAsRead}>
+                                                            전체 읽음
+                                                        </button>
+                                                    </li>
+                                                </>
+                                            ) : (
+                                                <li>
+                                                    <span className='dropdown-item text-muted'>알림이 없습니다</span>
+                                                </li>
+                                            )}
+                                        </ul>
+                                    </div>
+
+                                    {/* 마이페이지 */}
                                     <Link to='/myPage' className='nav-link'>
                                         <button className='btn btn-secondary ms-2'>MyPage</button>
                                     </Link>
+
+                                    {/* 로그아웃 */}
                                     <div className='nav-link'>
                                         <button className='btn btn-secondary ms-2' onClick={handleLogout}>
                                             Logout

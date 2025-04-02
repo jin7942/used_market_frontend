@@ -110,6 +110,18 @@ const util = {
 
         return `${year}-${month}-${day} ${hours}:${minutes}`;
     },
+
+    formatTime(datetimeStr) {
+        const now = new Date();
+        const time = new Date(datetimeStr);
+        const diff = Math.floor((now - time) / 1000); // 초 단위 차이
+
+        if (diff < 60) return '방금 전';
+        if (diff < 3600) return `${Math.floor(diff / 60)}분 전`;
+        if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`;
+
+        return time.toLocaleDateString(); // yyyy. M. d.
+    },
 };
 
 export default util;
