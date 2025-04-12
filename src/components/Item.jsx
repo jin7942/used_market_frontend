@@ -1,7 +1,7 @@
 import React from 'react';
 import ItemCardSmall from './ItemSmall';
 import { useState, useEffect } from 'react';
-import API from '../common/api';
+import API from '../common/API';
 
 // MyPage
 const ItemSection = ({ title, isVisible, toggleVisibility }) => {

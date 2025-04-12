@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Item from '../components/Item';
-import API from '../common/api';
+import API from '../common/API';
 
 const MyPage = () => {
     const products = useState([]);

@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import ItemCard from '../components/ItemCard';
 import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import API from '../common/api';
+import API from '../common/API';
 import util from '../common/util';
 
 const ItemDetail = () => {

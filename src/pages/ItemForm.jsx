@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import API from '../common/api';
+import API from '../common/API';
 import util from '../common/util';
+import config from '../common/_config';
 import { useNavigate } from 'react-router-dom';
 
 const ItemForm = () => {
@@ -62,7 +63,7 @@ const ItemForm = () => {
             const formData = new FormData();
             images.forEach((img) => formData.append('images', img));
 
-            const imgServerRes = await API.post('http://localhost:4000/api/uploadImg', formData, {
+            const imgServerRes = await API.post(`${config.UPLOAD_API}/uploadImg`, formData, {
                 headers: {
                     'x-api-key': 'SEXY_GUY_USED_MARKET',
                     'Content-Type': 'multipart/form-data',

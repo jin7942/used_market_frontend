@@ -5,7 +5,7 @@ import Pagination from '../components/Pagination';
 import DeveloperCard from '../components/DeveloperCard';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import API from '../common/api';
+import API from '../common/API';
 import PacmanLoader from 'react-spinners/PacmanLoader';
 
 /**

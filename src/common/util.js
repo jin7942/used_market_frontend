@@ -1,4 +1,4 @@
-import API from '../common/api';
+import API from './API';
 
 const util = {
     hasInvalidChar: (value) => {

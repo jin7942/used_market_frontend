@@ -1,7 +1,7 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useState, useEffect } from 'react';
-import API from '../common/api';
+import API from '../common/API';
 import util from '../common/util';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';

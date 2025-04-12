@@ -1,7 +1,7 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import useFormValidation from '../hooks/useFormValidation';
-import API from '../common/api';
+import API from '../common/API';
 import { useNavigate } from 'react-router-dom';
 import util from '../common/util';
 
