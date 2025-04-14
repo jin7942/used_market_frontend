@@ -1,4 +1,4 @@
 export default {
-    BASE_URL: 'http://nextuse-backend:8080/api',
+    BASE_URL: '/api',
     UPLOAD_API: '/api',
 };
