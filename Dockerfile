@@ -20,8 +20,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 
-# 6. 80 포트 노출
-EXPOSE 80
+# 6. 3000 포트 노출
+EXPOSE 3000
 
 # 7. nginx 실행
 CMD ["nginx", "-g", "daemon off;"]
