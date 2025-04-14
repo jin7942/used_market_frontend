@@ -16,6 +16,9 @@ FROM nginx:stable-alpine
 
 # 5. 빌드된 리액트 앱을 nginx의 html 폴더로 복사
 COPY --from=builder /app/build /usr/share/nginx/html
+# 빌드 후 nginx.conf를 복사
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 
 # 6. 80 포트 노출
 EXPOSE 80
