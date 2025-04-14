@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import util from '../common/util';
-import API from '../common/api';
+import API from '../common/API';
 
 const useFormValidation = (initialState) => {
     const [formData, setFormData] = useState(initialState);
