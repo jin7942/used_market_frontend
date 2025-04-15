@@ -6,12 +6,7 @@ const DeveloperCard = () => {
             <div className='row g-0 align-items-center h-100'>
                 {/* 프로필 이미지 */}
                 <div className='col-md-4 d-flex align-items-center justify-content-center'>
-                    <img
-                        src='../../public/img/profile.jpg'
-                        className='img-fluid rounded-start'
-                        alt='Developer'
-                        style={{ height: '100%', objectFit: 'cover' }}
-                    />
+                    <img src='./img/profile.jpg' className='img-fluid rounded-start' alt='Developer' style={{ height: '100%', objectFit: 'cover' }} />
                 </div>
 
                 <div className='col-md-8 d-flex flex-column justify-content-center align-items-end pe-5'>
