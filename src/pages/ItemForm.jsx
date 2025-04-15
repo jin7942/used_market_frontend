@@ -63,7 +63,7 @@ const ItemForm = () => {
             const formData = new FormData();
             images.forEach((img) => formData.append('images', img));
 
-            const imgServerRes = await API.post(`${config.UPLOAD_API}/uploadImg`, formData, {
+            const imgServerRes = await API.post(`/uploadImg`, formData, {
                 headers: {
                     'x-api-key': 'SEXY_GUY_USED_MARKET',
                     'Content-Type': 'multipart/form-data',
