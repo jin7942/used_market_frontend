@@ -4,7 +4,7 @@ const Footer = () => {
             <div className='container'>
                 <div className='row align-items-center'>
                     <div className='col-3'>
-                        <img src='../../public/img/logo.webp' alt='Company Logo' className='mb-3' style={{ width: '180px', height: 'auto' }} />
+                        <img src='/img/logo.webp' alt='Company Logo' className='mb-3' style={{ width: '180px', height: 'auto' }} />
                     </div>
                     <div className='col-9 text-center'>
                         <p>© 2025 Your Company Name. All rights reserved.</p>
