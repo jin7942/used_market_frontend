@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from './_config';
 
-// 으아아아아
+// 으아아아아앙
 // 인증없이 접근 가능
 const publicRoutes = [
     '/users/auth/register', // 회원가입 API
