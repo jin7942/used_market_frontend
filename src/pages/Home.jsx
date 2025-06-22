@@ -23,7 +23,8 @@ const Home = () => {
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedSearch(search);
-        }, 300); // 300ms 후에 search 상태를 debouncedSearch로 반영
+        }, 300);
+        // 300ms 후에 search 상태를 debouncedSearch로 반영
 
         return () => {
             clearTimeout(handler); // 이전 타이핑 중이면 타이머 취소
