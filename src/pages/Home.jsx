@@ -19,6 +19,7 @@ const Home = () => {
     const [search, setSearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
 
+    // 디바운싱 로직
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedSearch(search);
