@@ -15,7 +15,17 @@ const Signup = () => {
     const navigate = useNavigate();
 
     // useFormValidation 훅으로 폼 상태와 유효성 로직 관리
-    const { formData, errors, isFormValid, agreed, emailAvailable, nicknameAvailable, handleChange, handleCheckbox, validateAll } = useFormValidation({
+    const {
+        formData,
+        errors,
+        isFormValid,
+        agreed,
+        emailAvailable,
+        nicknameAvailable,
+        handleChange,
+        handleCheckbox,
+        validateAll,
+    } = useFormValidation({
         userEmail: '',
         userPassword: '',
         userPasswordCheck: '',
@@ -61,94 +71,135 @@ const Signup = () => {
     };
 
     return (
-        <div className='d-flex flex-column min-vh-100'>
+        <div className="d-flex flex-column min-vh-100">
             <Header />
-            <main className='container mt-5 flex-grow-1 pt-5'>
-                <div className='row'>
-                    <div className='col'></div>
-                    <div className='col'>
+            <main className="container mt-5 flex-grow-1 pt-5">
+                <div className="row">
+                    <div className="col"></div>
+                    <div className="col">
                         <h2>SignUp</h2>
                         <hr />
                         {/* 회원가입 폼 */}
                         <form>
                             {/* 이메일 입력 */}
-                            <label className='form-label text-start d-block mb-3'>Email</label>
+                            <label className="form-label text-start d-block mb-3">Email</label>
                             <input
-                                type='text'
-                                name='userEmail'
+                                type="text"
+                                name="userEmail"
                                 className={`form-control ${
-                                    errors.userEmail || emailAvailable === false ? 'is-invalid' : emailAvailable === true ? 'is-valid' : ''
+                                    errors.userEmail || emailAvailable === false
+                                        ? 'is-invalid'
+                                        : emailAvailable === true
+                                        ? 'is-valid'
+                                        : ''
                                 }`}
                                 onChange={handleChange}
                                 onBlur={handleChange}
                             />
-                            {errors.userEmail && <p className='text-danger'>{errors.userEmail}</p>}
-                            {emailAvailable === false && <p className='text-danger'>이미 사용 중인 이메일입니다.</p>}
-                            {emailAvailable === true && !errors.userEmail && <p className='text-success'>사용 가능한 이메일입니다.</p>}
+                            {errors.userEmail && <p className="text-danger">{errors.userEmail}</p>}
+                            {emailAvailable === false && (
+                                <p className="text-danger">이미 사용 중인 이메일입니다.</p>
+                            )}
+                            {emailAvailable === true && !errors.userEmail && (
+                                <p className="text-success">사용 가능한 이메일입니다.</p>
+                            )}
 
                             {/* 비밀번호 입력 */}
-                            <label className='form-label text-start d-block mb-3'>Password</label>
+                            <label className="form-label text-start d-block mb-3">Password</label>
                             <input
-                                type='password'
-                                name='userPassword'
-                                className={`form-control mb-3 ${errors.userPassword ? 'is-invalid' : ''}`}
+                                type="password"
+                                name="userPassword"
+                                className={`form-control mb-3 ${
+                                    errors.userPassword ? 'is-invalid' : ''
+                                }`}
                                 onChange={(e) => {
                                     handleChange(e);
                                     // 비밀번호 변경 시 비밀번호 확인도 재검증
-                                    const event = { target: { name: 'userPasswordCheck', value: formData.userPasswordCheck } };
+                                    const event = {
+                                        target: {
+                                            name: 'userPasswordCheck',
+                                            value: formData.userPasswordCheck,
+                                        },
+                                    };
                                     handleChange(event);
                                 }}
                                 onBlur={handleChange}
                             />
-                            {errors.userPassword && <p className='text-danger'>{errors.userPassword}</p>}
+                            {errors.userPassword && (
+                                <p className="text-danger">{errors.userPassword}</p>
+                            )}
 
                             {/* 비밀번호 확인 입력 */}
-                            <label className='form-label text-start d-block mb-3'>Check your password</label>
+                            <label className="form-label text-start d-block mb-3">
+                                Check your password
+                            </label>
                             <input
-                                type='password'
-                                name='userPasswordCheck'
-                                className={`form-control ${errors.userPasswordCheck ? 'is-invalid' : ''}`}
-                                onChange={handleChange}
-                                onBlur={handleChange}
-                            />
-                            {errors.userPasswordCheck && <p className='text-danger'>{errors.userPasswordCheck}</p>}
-
-                            {/* 닉네임 입력 */}
-                            <label className='form-label text-start d-block mb-3'>NickName</label>
-                            <input
-                                type='text'
-                                name='userNickname'
+                                type="password"
+                                name="userPasswordCheck"
                                 className={`form-control ${
-                                    errors.userNickname || nicknameAvailable === false ? 'is-invalid' : nicknameAvailable === true ? 'is-valid' : ''
+                                    errors.userPasswordCheck ? 'is-invalid' : ''
                                 }`}
                                 onChange={handleChange}
                                 onBlur={handleChange}
                             />
-                            {errors.userNickname && <p className='text-danger'>{errors.userNickname}</p>}
-                            {nicknameAvailable === false && <p className='text-danger'>이미 사용 중인 닉네임입니다.</p>}
-                            {nicknameAvailable === true && !errors.userNickname && <p className='text-success'>사용 가능한 닉네임입니다.</p>}
+                            {errors.userPasswordCheck && (
+                                <p className="text-danger">{errors.userPasswordCheck}</p>
+                            )}
+
+                            {/* 닉네임 입력 */}
+                            <label className="form-label text-start d-block mb-3">NickName</label>
+                            <input
+                                type="text"
+                                name="userNickname"
+                                className={`form-control ${
+                                    errors.userNickname || nicknameAvailable === false
+                                        ? 'is-invalid'
+                                        : nicknameAvailable === true
+                                        ? 'is-valid'
+                                        : ''
+                                }`}
+                                onChange={handleChange}
+                                onBlur={handleChange}
+                            />
+                            {errors.userNickname && (
+                                <p className="text-danger">{errors.userNickname}</p>
+                            )}
+                            {nicknameAvailable === false && (
+                                <p className="text-danger">이미 사용 중인 닉네임입니다.</p>
+                            )}
+                            {nicknameAvailable === true && !errors.userNickname && (
+                                <p className="text-success">사용 가능한 닉네임입니다.</p>
+                            )}
 
                             {/* 개인정보 동의 체크박스 */}
-                            <div className='form-check mb-3 mt-3'>
-                                <input className='form-check-input' type='checkbox' checked={agreed} onChange={handleCheckbox} id='agree' />
-                                <label className='form-check-label' htmlFor='agree'>
+                            <div className="form-check mb-3 mt-3">
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    checked={agreed}
+                                    onChange={handleCheckbox}
+                                    id="agree"
+                                />
+                                <label className="form-check-label" htmlFor="agree">
                                     개인정보 수집 및 이용에 동의합니다.
                                 </label>
                             </div>
 
                             {/* 회원가입 버튼 */}
                             <button
-                                type='button'
+                                type="button"
                                 onClick={handleSignUp}
                                 disabled={!isFormValid}
-                                className={`form-control d-block btn ${isFormValid ? 'btn-primary' : 'btn-secondary'} mb-3`}
+                                className={`form-control d-block btn ${
+                                    isFormValid ? 'btn-primary' : 'btn-secondary'
+                                } mb-3`}
                             >
                                 SignUp
                             </button>
                         </form>
 
                         {/* SNS 가입 섹션 (미구현) */}
-                        <h3 className='text-center mb-3'>or</h3>
+                        {/* <h3 className='text-center mb-3'>or</h3>
                         <hr />
                         <h4 className='text-center mb-3'>Signup with SNS</h4>
                         <button className='form-control d-block btn btn-success mb-3' disabled>
@@ -162,9 +213,9 @@ const Signup = () => {
                         </button>
                         <button className='form-control d-block btn btn-danger mb-3' disabled>
                             INSTAGRAM (준비 중)
-                        </button>
+                        </button> */}
                     </div>
-                    <div className='col'></div>
+                    <div className="col"></div>
                 </div>
             </main>
             <Footer />
