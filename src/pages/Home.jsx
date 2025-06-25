@@ -35,7 +35,6 @@ const Home = () => {
     useEffect(() => {
         const getItemList = async () => {
             const res = await API.get(`/items/list?page=${page}&size=12&search=${debouncedSearch}`);
-            console.log(debouncedSearch);
             setItemList(res.data.data.itemList);
             setTotalPages(res.data.data.pageInfo.totalPages);
         };
