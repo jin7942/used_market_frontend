@@ -58,42 +58,49 @@ const ItemDetail = () => {
     }, [itemSeq]);
 
     return (
-        <div className='d-flex flex-column min-vh-100'>
+        <div className="d-flex flex-column min-vh-100">
             {/* Header */}
             <Header key={isWished} />
 
             {/* Main Content */}
-            <main className='container mt-5 flex-grow-1'>
-                <div className='row'>
+            <main className="container mt-5 flex-grow-1">
+                <div className="row">
                     {/* 상품 이미지 썸네일 */}
-                    <div className='col-md-6 d-flex align-items-end'>
-                        <img src={`${img.imgUploadPath}${img.imgUploadUuidName}`} className='img-fluid rounded' alt={item.itemTitle} />
+                    <div className="col-md-6 d-flex align-items-end">
+                        <img
+                            src={`${img.imgUploadPath}${img.imgUploadUuidName}`}
+                            className="img-fluid rounded"
+                            alt={item.itemTitle}
+                        />
                     </div>
 
                     {/* 상품 정보 */}
-                    <div className='col-md-6 d-flex flex-column justify-content-between'>
+                    <div className="col-md-6 d-flex flex-column justify-content-between">
                         <div>
                             <h2>{item.itemTitle}</h2>
-                            <h4 className='text-danger'>{util.formatPrice(item.itemPrice)} 원</h4>
+                            <h4 className="text-danger">{util.formatPrice(item.itemPrice)} 원</h4>
                             <h5>{item.userNickname}</h5>
                             <p>{item.itemDescription}</p>
                         </div>
 
-                        <div className='d-flex justify-content-end'>
-                            <button className='btn btn-primary me-2'>채팅하기</button>
+                        <div className="d-flex justify-content-end">
+                            <button className="btn btn-primary me-2">채팅하기</button>
 
                             {isWished ? (
-                                <button className='btn btn-success me-2' onClick={handleSetWish}>
+                                <button className="btn btn-success me-2" onClick={handleSetWish}>
                                     찜한 상품
                                 </button>
                             ) : (
-                                <button className='btn btn-outline-secondary me-2' onClick={handleSetWish}>
+                                <button
+                                    className="btn btn-outline-secondary me-2"
+                                    onClick={handleSetWish}
+                                >
                                     찜하기
                                 </button>
                             )}
 
-                            <Link to='/order'>
-                                <button className='btn btn-dark' onClick={handleOnClick}>
+                            <Link to="/order">
+                                <button className="btn btn-dark" onClick={handleOnClick}>
                                     결제하기
                                 </button>
                             </Link>
@@ -102,17 +109,21 @@ const ItemDetail = () => {
                 </div>
 
                 {/* 자세히 보기 */}
-                <div className='row mt-5 mb-5 justify-content-center'>
+                <div className="row mt-5 mb-5 justify-content-center">
                     {imgList.map((img, idx) => (
-                        <div className='col-10 mb-3' key={img.imgUploadUuidName || idx}>
-                            <img src={`${img.imgUploadPath}${img.imgUploadUuidName}`} className='img-fluid rounded' alt={item.itemTitle} />
+                        <div className="col-10 mb-3" key={img.imgUploadUuidName || idx}>
+                            <img
+                                src={`${img.imgUploadPath}${img.imgUploadUuidName}`}
+                                className="img-fluid rounded"
+                                alt={item.itemTitle}
+                            />
                         </div>
                     ))}
                 </div>
 
                 {/* 상품 추천 */}
-                <h2>상품 추천</h2>
-                <hr />
+                {/* <h2>상품 추천</h2> */}
+                {/* <hr /> */}
                 {/* <div className='row'>
                     <ItemCard />
                     <ItemCard />
