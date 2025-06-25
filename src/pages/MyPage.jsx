@@ -58,7 +58,7 @@ const MyPage = () => {
                         </div>
 
                         {/* 거래 후기 섹션 */}
-                        <div className="card shadow-sm p-3 mt-4"></div>
+                        {/* <div className="card shadow-sm p-3 mt-4"></div> */}
                     </div>
 
                     {/* 거래 내역 & 찜한 상품 */}
