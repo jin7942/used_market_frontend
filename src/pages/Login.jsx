@@ -6,8 +6,8 @@ import { useState } from 'react';
 
 const Login = ({ isOpen, onClose, setIsLoggedIn }) => {
     const [formData, setFormData] = useState({
-        userEmail: '',
-        userPassword: '',
+        userEmail: 'guest@guest.com',
+        userPassword: '1234',
     });
 
     if (!isOpen) return null;
