@@ -19,6 +19,9 @@ const Home = () => {
     const [search, setSearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
 
+    console.log(import.meta.env.VITE_SERVER_STATUS);
+    console.log(config.SERVER_STATUS);
+
     // 디바운싱 로직
     useEffect(() => {
         const handler = setTimeout(() => {
