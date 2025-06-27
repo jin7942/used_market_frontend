@@ -9,7 +9,6 @@ RUN npm install
 
 # 3. 리액트 앱 소스 복사 및 빌드
 COPY . .
-COPY .env .
 RUN npm run build
 
 # 4. 프로덕션 스테이지 (nginx 사용)
