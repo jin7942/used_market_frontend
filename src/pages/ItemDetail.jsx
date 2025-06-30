@@ -84,7 +84,7 @@ const ItemDetail = () => {
                         </div>
 
                         <div className="d-flex justify-content-end">
-                            <button className="btn btn-primary me-2">채팅하기</button>
+                            {/* <button className="btn btn-primary me-2">채팅하기</button> */}
 
                             {isWished ? (
                                 <button className="btn btn-success me-2" onClick={handleSetWish}>
