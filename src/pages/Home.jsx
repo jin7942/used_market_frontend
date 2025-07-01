@@ -37,6 +37,7 @@ const Home = () => {
             const res = await API.get(`/items/list?page=${page}&size=12&search=${debouncedSearch}`);
             setItemList(res.data.data.itemList);
             setTotalPages(res.data.data.pageInfo.totalPages);
+            setPage(res.data.data.pageInfo.page);
         };
         getItemList();
     }, [page, debouncedSearch]);

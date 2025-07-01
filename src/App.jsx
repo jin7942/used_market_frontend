@@ -17,7 +17,9 @@ const App = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            const eventSource = new EventSource(`${config.BASE_URL}/notification/sse/connect?token=${token}`); // ✅ 백엔드 SSE URI
+            const eventSource = new EventSource(
+                `${config.BASE_URL}/notification/sse/connect?token=${token}`,
+            );
 
             eventSource.addEventListener('notify', (e) => {
                 const payload = JSON.parse(e.data);
@@ -27,12 +29,11 @@ const App = () => {
                     </span>,
                     {
                         onClick: () => navigate(`/item/detail/${payload.data.itemSeq}`),
-                    }
+                    },
                 );
             });
 
             eventSource.onerror = () => {
-                console.warn('SSE 연결 종료됨');
                 eventSource.close();
             };
 
@@ -46,24 +47,24 @@ const App = () => {
         <>
             <Routes>
                 {/* 메인 페이지 */}
-                <Route path='/' element={<Home />} />
+                <Route path="/" element={<Home />} />
 
                 {/* 회원가입 페이지 */}
-                <Route path='/signup' element={<Signup />} />
+                <Route path="/signup" element={<Signup />} />
 
                 {/* 상세 페이지 */}
-                <Route path='/item/detail/:itemSeq' element={<ItemDetail />} />
+                <Route path="/item/detail/:itemSeq" element={<ItemDetail />} />
 
                 {/* 마이 페이지 */}
-                <Route path='/myPage' element={<MyPage />} />
+                <Route path="/myPage" element={<MyPage />} />
 
                 {/* 상품 등록 페이지 */}
-                <Route path='/item' element={<ItemForm />} />
+                <Route path="/item" element={<ItemForm />} />
 
                 {/* 결제 페이지 */}
-                <Route path='/order' element={<Order />} />
+                <Route path="/order" element={<Order />} />
             </Routes>
-            <ToastContainer position='top-right' autoClose={5000} />
+            <ToastContainer position="top-right" autoClose={5000} />
         </>
     );
 };
