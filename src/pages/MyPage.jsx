@@ -46,8 +46,7 @@ const MyPage = () => {
                     <div className="col-md-4">
                         <div className="card text-center shadow-sm p-3">
                             <img
-                                src={`https://www.google.com/imgres?q=user%20profile%20image&imgurl=https%3A%2F%2Fuxwing.com%2Fwp-content%2Fthemes%2Fuxwing%2Fdownload%2Fpeoples-avatars%2Fman-user-circle-icon.svg&imgrefurl=https%3A%2F%2Fuxwing.com%2Fuser-profile-icon%2F&docid=UagNtViPVDBRoM&tbnid=4KA6vm06mLounM&vet=12ahUKEwikre36-YyOAxV9ffUHHbYqD6EQM3oFCIMBEAA..i&w=774&h=800&hcb=2&ved=2ahUKEwikre36-YyOAxV9ffUHHbYqD6EQM3oFCIMBEAA`}
-                                className="card-img-top rounded-circle mx-auto"
+                                src="/img/baseProfileImg.png"
                                 alt="User Profile"
                                 style={{ width: '100px', height: '100px' }}
                             />

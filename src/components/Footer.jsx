@@ -11,12 +11,12 @@ const Footer = () => {
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-3">
-                            <img
+                            {/* <img
                                 src="/img/logo.webp"
                                 alt="Company Logo"
                                 className="mb-3"
                                 style={{ width: '180px', height: 'auto' }}
-                            />
+                            /> */}
                         </div>
                         <div className="col-9 text-center">
                             <p>JINBEOM KIM</p>
