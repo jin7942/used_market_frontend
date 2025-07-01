@@ -5,26 +5,31 @@
  */
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     const pageRange = 5;
-    const start = Math.floor(currentPage / totalPages) * pageRange;
+    const currentGroup = Math.floor(currentPage / pageRange);
+    const start = currentGroup * pageRange;
     const end = Math.min(start + pageRange, totalPages);
 
     const pages = [];
     for (let i = start; i < end; i++) {
         pages.push(
             <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-                <button className='page-link' onClick={() => onPageChange(i)}>
+                <button className="page-link" onClick={() => onPageChange(i)}>
                     {i + 1}
                 </button>
-            </li>
+            </li>,
         );
     }
 
     return (
-        <div className='d-flex justify-content-center'>
+        <div className="d-flex justify-content-center">
             <nav>
-                <ul className='pagination'>
+                <ul className="pagination">
                     <li className={`page-item ${currentPage === 0 ? 'disabled' : ''}`}>
-                        <button className='page-link' onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 0}>
+                        <button
+                            className="page-link"
+                            onClick={() => onPageChange(currentPage - 1)}
+                            disabled={currentPage === 0}
+                        >
                             Previous
                         </button>
                     </li>
@@ -32,7 +37,11 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                     {pages}
 
                     <li className={`page-item ${currentPage === totalPages - 1 ? 'disabled' : ''}`}>
-                        <button className='page-link' onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages - 1}>
+                        <button
+                            className="page-link"
+                            onClick={() => onPageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages - 1}
+                        >
                             Next
                         </button>
                     </li>
