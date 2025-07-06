@@ -24,7 +24,9 @@ API.interceptors.request.use((req) => {
     const requestPath = req.url;
 
     // 공개 경로 여부 확인
-    const isPublic = publicRoutes.some((route) => requestPath === route || requestPath.startsWith(route));
+    const isPublic = publicRoutes.some(
+        (route) => requestPath === route || requestPath.startsWith(route),
+    );
 
     if (token && !isPublic) {
         req.headers.Authorization = 'Bearer ' + token;
@@ -39,7 +41,9 @@ API.interceptors.response.use(
     (error) => {
         const originalUrl = error.config?.url;
 
-        const isAuthApi = ['/users/auth/login', '/users/auth/register'].some((url) => originalUrl.includes(url));
+        const isAuthApi = ['/users/auth/login', '/users/auth/register'].some((url) =>
+            originalUrl.includes(url),
+        );
 
         if (error.response && error.response.status === 401 && !isAuthApi) {
             // 401 에러가 발생하면 로그인 페이지로 리다이렉트 또는 로그인 요청
@@ -47,8 +51,14 @@ API.interceptors.response.use(
             localStorage.clear();
             window.location.href = '/';
         }
+        if (error.response && error.response.status === 403) {
+            alert('로그인이 만료 되었습니다. 다시 로그인 해주세요');
+            localStorage.clear();
+            window.location.href = '/';
+        }
+
         return Promise.reject(error); // 에러가 발생하면 rejected 상태로 처리
-    }
+    },
 );
 
 export default API;
